@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Listado de Formularios</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body {
+                background-color: #f7f7f7;
+            }
+            .container {
+                margin-top: 50px;
+            }
+            .table-wrapper {
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+            .table thead {
+                background-color: #007bff;
+                color: white;
+            }
+            .table th, .table td {
+                vertical-align: middle;
+            }
+            .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #004085;
+            }
+            .btn-secondary {
+                background-color: #6c757d;
+                border-color: #6c757d;
+            }
+            .btn-secondary:hover {
+                background-color: #5a6268;
+                border-color: #545b62;
+            }
+            .modal-content {
+                border-radius: 8px;
+            }
+            .modal-header {
+                background-color: #007bff;
+                color: white;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+            .modal-footer {
+                border-bottom-left-radius: 8px;
+                border-bottom-right-radius: 8px;
+            }
+        </style>
+    </head>
+    <body class="bg-light">
+
+        <div class="container">
+            <div class="table-wrapper">
+                <!-- Título de la página -->
+                <h1 class="text-center mb-4">Listado de Formularios</h1>
+
+                <!-- Botón para abrir el modal de agregar formulario -->
+                <div class="text-end mb-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Agregar contacto
+                    </button>
+                </div>
+
+                <!-- Tabla de formularios -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Mensaje</th>
+                            <th>Operaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Iterar sobre los formularios y mostrar los datos -->
+                        <tr th:each="formulario : ${formularios}">
+                            <td th:text="${formulario.id}"></td>
+                            <td th:text="${formulario.nombre}"></td>
+                            <td th:text="${formulario.email}"></td>
+                            <td th:text="${formulario.mensaje}"></td>
+                            <td>
+                                <!-- Botones para editar y eliminar -->
+                                <a th:href="@{/editarFormulario(id=${formulario.id})}" class="btn btn-warning btn-sm">Editar</a>
+                                <a th:href="@{/eliminarFormulario(id=${formulario.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este formulario?');">Eliminar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal para agregar un formulario nuevo -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registrar Contacto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulario dentro del modal -->
+                        <form th:action="@{/submitFormulario}" th:object="${formulario}" method="post" id="formContacto">
+                            <input type="hidden" th:field="*{id}" />
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Ingresa tu nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo electrónico</label>
+                                <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Ingresa tu correo electrónico" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mensaje" class="form-label">Mensaje</label>
+                                <textarea id="mensaje" th:field="*{mensaje}" class="form-control" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary mb-2 float-end" form="formContacto">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    </body>
+</html>
