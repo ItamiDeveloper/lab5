@@ -1,92 +1,44 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title th:text="${formulario.id != null ? 'Editar Formulario' : 'Nuevo Formulario'}">Formulario de Contacto</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            body {
-                background-color: #f7f7f7;
-            }
-            .form-container {
-                background-color: #ffffff;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                padding: 40px;
-            }
-            .form-title {
-                font-size: 2rem;
-                color: #007bff;
-                margin-bottom: 30px;
-            }
-            .form-footer {
-                margin-top: 30px;
-                text-align: center;
-            }
-            .btn-primary {
-                background-color: #007bff;
-                border-color: #007bff;
-            }
-            .btn-secondary {
-                background-color: #6c757d;
-                border-color: #6c757d;
-            }
-            .form-control:focus {
-                border-color: #007bff;
-                box-shadow: 0 0 0 0.25rem rgba(38, 143, 255, 0.5);
-            }
-        </style>
+        <title>Formulario de Contacto</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     </head>
     <body>
-
         <div class="container mt-5">
-            <div class="form-container">
-                <!-- Título del formulario -->
-                <h1 class="form-title text-center" th:text="${formulario.id != null ? 'Editar Formulario' : 'Nuevo Formulario'}">Formulario de Contacto</h1>
+            <h1 class="text-center mb-4">Editar Formulario</h1>
+            <form th:action="@{/submitEdicionFormulario}" th:object="${formulario}" method="post">
+                <!-- Campo oculto para el ID -->
+                <input type="hidden" th:field="*{id}" />
 
-                <!-- Formulario de contacto -->
-                <form th:action="@{${formulario.id != null} ? '/submitEdicionFormulario' : '/submitFormulario'}" th:object="${formulario}" method="post">
-
-                    <!-- Campo oculto para el ID en caso de edición -->
-                    <input type="hidden" th:field="*{id}" />
-
-                    <!-- Campo nombre -->
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Ingresa tu nombre" required>
-                    </div>
-
-                    <!-- Campo correo electrónico -->
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo electrónico</label>
-                        <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Ingresa tu correo electrónico" required>
-                    </div>
-
-                    <!-- Campo mensaje -->
-                    <div class="mb-3">
-                        <label for="mensaje" class="form-label">Mensaje</label>
-                        <textarea id="mensaje" th:field="*{mensaje}" class="form-control" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
-                    </div>
-
-                    <!-- Botón de envío -->
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">
-                            <span th:text="${formulario.id != null ? 'Actualizar' : 'Enviar'}">Enviar</span>
-                        </button>
-                    </div>
-
-                </form>
-
-                <!-- Botón para volver a la lista de formularios -->
-                <div class="form-footer mt-3">
-                    <a href="/listarFormularios" class="btn btn-secondary">Volver a la lista de formularios</a>
+                <!-- Campo para el Nombre -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Ingresa tu nombre" required>
                 </div>
-            </div>
+
+                <!-- Campo para el Correo Electrónico -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Ingresa tu correo electrónico" required>
+                </div>
+
+                <!-- Campo para el Mensaje -->
+                <div class="mb-3">
+                    <label for="mensaje" class="form-label">Mensaje</label>
+                    <textarea id="mensaje" th:field="*{mensaje}" class="form-control" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
+                </div>
+
+                <!-- Botón de Actualizar -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
+            </form>
         </div>
-
-        <!-- Scripts de Bootstrap -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     </body>
 </html>
